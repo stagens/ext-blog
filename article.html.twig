@@ -9,39 +9,7 @@
     {% endblock %}
 
     {% block blog_title %}
-{% if !page.variables.blog_no_title %}
-    <div class="blog-header">
-        {% if page.title %}
-        <div class="blog-header-title">
-            <h1>{{ page.title }}</h1>
-        </div>
-        {% endif %}
-        <div class="blog-header-meta">
-            {% if date_format(page.date, '%Y') != 1970 %}
-            <div class="blog-header-meta-date">{{ date_format(page.date, '%Y-%m-%d') }}</div>
-            {% endif %}
-            {% if page.variables.blog_category %}
-                {% set category = undefined %}
-                {% for category_object in databases.blog_categories.data %}
-                    {% if category_object.id == page.variables.blog_category %}
-                        {% do category = category_object %}
-                        {% break %}
-                    {% endif %}
-                {% endfor %}
-                {% if category %}
-                    <div class="blog-header-meta-category">
-                        <a href="{{ page_url('/blog/category/' + category.id) }}">
-                            {% if category.emoji %}
-                                <span class="emoji">{{ category.emoji }}</span>
-                            {% endif %}
-                            {{ category.title.ru }}
-                        </a>
-                    </div>
-                {% endif %}
-            {% endif %}
-        </div>
-    </div>
-    {% endif %}
+        {% include 'blog/title' %}
     {% endblock %}
 
     {% block blog_before_content %}{% endblock %}
@@ -53,39 +21,7 @@
     {% block blog_after_content %}{% endblock %}
 
     {% block blog_tags %}
-    {% if !page.variables.blog_no_tags %}
-    {% if page.variables.blog_tags && page.variables.blog_tags.length > 0 %}
-    <div class="blog-tags">
-        <ul>
-            {% for _, tagKey in page.variables.blog_tags %}
-            {% set tag = undefined %}
-            {% for tag_object in databases.blog_tags.data %}
-                {% if tag_object.id == tagKey %}
-                    {% do tag = tag_object %}
-                    {% break %}
-                {% endif %}
-            {% endfor %}
-            {% if tag %}
-                <li class="tag-page">
-                    <a href="{{ page_url('/blog/tags/' + tagKey) }}">
-                        {% if tag.emoji %}
-                            <span class="emoji">{{ tag.emoji }}</span>
-                        {% endif %}
-                        {{ tag.title.ru }}
-                    </a>
-                </li>
-            {% else %}
-                <li class="tag-no-page">
-                    <a href="{{ page_url('/blog/tags/' + tagKey) }}">
-                        {{ tagKey }}
-                    </a>
-                </li>
-            {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-    {% endif %}
+        {% include 'blog/tags' %}
     {% endblock %}
 
     {% block blog_after %}
