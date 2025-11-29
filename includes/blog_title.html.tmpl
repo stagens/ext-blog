@@ -1,0 +1,34 @@
+{{- define "blog_title" }}
+    <div class="blog-header">
+        <div class="blog-header-title">
+            {{ if and (.Page.Title) (not .no_title) }}<h1>{{ .Page.Title }}</h1>{{ end }}
+        </div>
+        <div class="blog-header-meta">
+            {{- if .date }}
+                <div class="blog-header-meta-date">{{ .date }}</div>
+            {{ end -}}
+            {{- if .category }}
+                {{- $category := "" }}
+                {{- range .Databases.categories.Data }}
+                    {{- if eq .id $.category }}
+                        {{- $category = .}}
+                        {{ break }}
+                    {{ end -}}
+                {{ end -}}
+                {{- if $category }}
+                    {{- $categoryPage := index .Pages (concat "blog/categories/" $category.id) }}
+                    {{- if $categoryPage }}
+                        <div class="blog-header-meta-category">
+                            <a href="{{ $categoryPage.Uri }}">
+                                {{- if $category.emoji }}
+                                <span class="emoji">{{ $category.emoji }}</span>
+                                {{ end -}}
+                                {{ $category.title.ru }}
+                            </a>
+                        </div>
+                    {{ end -}}
+                {{ end -}}
+            {{ end -}}
+        </div>
+    </div>
+{{ end -}}

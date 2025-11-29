@@ -1,39 +1,38 @@
 ---
+name: blog
+title: Blog
+author:
+  name: Denis Vidog
+  email: github@doubleds.ru
+  website: https://den4k.space
 agg_dicts:
-  - name: date
-    variable: date
   - name: blog
-    variable: blog
-    sort_by:
-      variable: date
-      direction: desc
+    keys: [blog]
+  - name: tags
+    keys: [tags]
+  - name: categories
+    keys: [category]
+  - name: date
+    keys: [date]
   - name: featured
-    variable: featured
-    sort_by:
-      variable: date
-      direction: desc
-  - name: blog_category
-    variable: blog_category
-  - name: blog_tags
-    variable: blog_tags
+    keys: [featured]
 generators:
-  - name: blog_categories
-    dest_dir: blog/category
-    template: blog/gen/blog_category_gen
+  - name: tags
     source:
-      type: agg_dict
+      type: database
+      name: tags
+    template:
+      name: blog_tag
+    output:
+      dir: blog/tags
+  - name: categories
+    source:
+      type: database
+      name: categories
+    template:
       name: blog_category
-  - name: blog_tags
-    dest_dir: blog/tags
-    template: blog/gen/blog_tag_gen
-    source:
-      type: agg_dict
-      name: blog_tags
-#  - name: blog_tags
-#    dest_dir: blog/tags
-#    template: blog/gen/blog_tags_gen
-#    source:
-#      type: database
-#      name: blog_tags
-extra_css:
-  - /css/blog.css
+    output:
+      dir: blog/categories
+extras:
+  css:
+  - url: /css/blog.css

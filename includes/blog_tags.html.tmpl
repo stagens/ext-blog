@@ -1,0 +1,40 @@
+{{- define "blog_tags" }}
+    {{- if .tags }}
+        <div class="blog-tags">
+            <ul>
+                {{- range .tags }}
+                    {{- $tagKey := . }}
+                    {{- $tag := "" }}
+                    {{- $tagUrl := "" }}
+                    {{- $liClass := "tag-no-page"}}
+                    {{- range $.Databases.tags.Data }}
+                        {{- if eq .id $tagKey }}
+                            {{- $tag = . }}
+                            {{ break }}
+                        {{ end -}}
+                    {{ end -}}
+                    {{- $tagPage := "" }}
+                    {{- if $tag }}
+                        {{ $tagPage = index $.Pages (concat "blog/tags/" $tagKey)}}
+                        {{- if $tagPage }}
+                            {{- $tagUrl = $tagPage.Uri }}
+                        {{ end -}}
+                        {{- $liClass = "tag-page"}}
+                    {{ end -}}
+                    <li class="{{ $liClass }}">
+                        {{- if $tagUrl }}<a href="{{ $tagUrl }}">{{ end -}}
+                            {{- if $tag }}
+                                {{- if $tag.emoji }}
+                                    <span class="emoji">{{ $tag.emoji }}</span>
+                                {{ end -}}
+                                {{ $tag.title.ru }}
+                            {{- else }}
+                                {{ $tagKey }}
+                            {{ end -}}
+                            {{- if $tagUrl }}</a>{{ end -}}
+                    </li>
+                {{ end -}}
+            </ul>
+        </div>
+    {{ end -}}
+{{ end -}}

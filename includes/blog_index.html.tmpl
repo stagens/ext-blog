@@ -1,0 +1,13 @@
+{{- define "blog_index" }}
+    <ul>
+        {{- range .AggDictsData.blog.blog.true }}
+            {{ $pageId := .Id }}
+            {{ $page := index $.Pages $pageId }}
+            <li>
+                <a href="{{ $page.Uri }}">
+                    {{ $page.Title }}
+                </a>
+            </li>
+        {{ end -}}
+    </ul>
+{{ end -}}
