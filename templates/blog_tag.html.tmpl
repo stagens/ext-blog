@@ -1,1 +1,12 @@
-BLOG TAG
+<h1>{{ if .title.ru }}{{ .title.ru }}{{ else }}{{ .title.en }}{{ end }}</h1>
+
+<ul>
+    {{- $tag := index $.AggDictsData.tags.tags .id }}
+    {{- range $tag }}
+        {{- $pageId := .Id }}
+        {{- $page := index $.Pages $pageId }}
+        <li>
+            <a href="{{ $page.Uri }}">{{ $page.Title }}</a>
+        </li>
+    {{ end -}}
+</ul>

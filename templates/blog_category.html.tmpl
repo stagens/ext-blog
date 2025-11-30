@@ -1,1 +1,12 @@
-BLOG_CATEGORY
+<h1>{{ if .title.ru }}{{ .title.ru }}{{ else }}{{ .title.en }}{{ end }}</h1>
+
+<ul>
+    {{- $category := index $.AggDictsData.categories.category .id }}
+    {{- range $category }}
+        {{- $pageId := .Id }}
+        {{- $page := index $.Pages $pageId }}
+        <li>
+            <a href="{{ $page.Uri }}">{{ $page.Title }}</a>
+        </li>
+    {{ end -}}
+</ul>
